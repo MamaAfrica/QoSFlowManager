@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flow Manager</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f8fb;
+      color: #2c3e50;
+      padding: 0;
+    }
+
+    nav {
+      background-color: #1e2d50;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    nav .logo {
+      color: #ffffff;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav ul li a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #00bfff;
+    }
+
+    .container {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      margin-bottom: 1rem;
+      color: #1e2d50;
+      text-align: center;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #5e6e8c;
+    }
+
+    form {
+      margin-bottom: 2rem;
+      background-color: #ffffff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    form input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      outline: none;
+      transition: border 0.3s;
+    }
+
+    form input:focus {
+      border-color: #007bff;
+    }
+
+    button {
+      background: linear-gradient(to right, #007bff, #0056b3);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #0056b3, #003f7f);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      background-color: #ffffff;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+
+    table th, table td {
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    table th {
+      background-color: #f0f4f8;
+      color: #2a3f59;
+      font-weight: 600;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+      margin-right: 0.5rem;
+      font-weight: 500;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .inline-form {
+      display: inline;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-top: 1rem;
+      }
+
+      form input {
+        font-size: 1rem;
+      }
+
+      table th, table td {
+        font-size: 0.9rem;
+      }
+
+      button {
+        width: 100%;
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<%-include('partials/navbar') %>
+ 
+
+  <div class="container">
+    <h1>Switch Two</h1>
+    <p>Host one and Host two are connected to Switch Two</p>
+
+    <form action="/send-flows" method="POST">
+      <button type="submit">Send Flows for Switch Two</button>
+    </form>
+
+    <h1>All Flow Rules</h1>
+    <table>
+      <tr>
+        <th>Traffic Type</th>
+        <th>Priority</th>
+        <th>Device</th>
+        <th>IP</th>
+        <th>Output Port</th>
+        <th>Protocol</th>
+        <th>Port</th>
+        <th>Actions</th>
+      </tr>
+      <% flows.forEach((flow, i) => { %>
+        <tr>
+          <% const udp = flow.selector.criteria.find(c => c.type === "UDP_DST");
+             const tcp = flow.selector.criteria.find(c => c.type.includes("TCP"));
+             let trafficType = 'Unknown';
+             if (udp?.udpPort === 5001) trafficType = 'VoIP';
+             else if (udp?.udpPort === 8000) trafficType = 'Video Streaming';
+             else if (tcp?.tcpPort === 80) trafficType = 'HTTP';
+          %>
+          <td><%= trafficType %></td>
+          <td><%= flow.priority %></td>
+          <td><%= flow.deviceId %></td>
+          <td><%= flow.selector.criteria.find(c => c.type === "IPV4_DST")?.ip %></td>
+          <td><%= flow.treatment.instructions[0].port %></td>
+          <td><%= flow.selector.criteria.find(c => c.type === "IP_PROTO")?.protocol %></td>
+          <td>
+            <%= flow.selector.criteria.find(c => c.type === "UDP_DST")?.udpPort 
+                || flow.selector.criteria.find(c => c.type.includes("TCP"))?.tcpPort 
+                || 'N/A' %>
+          </td>
+          <td>
+            <a href="/edit/<%= i %>">Edit</a>
+            <form action="/delete/<%= i %>" method="POST" class="inline-form">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </table>
+
+    <h2>Add New Flow</h2>
+    <form action="/add" method="POST">
+      <label>Priority: <input name="priority" required></label>
+      <label>Device ID: <input name="deviceId" required></label>
+      <label>Protocol (6=TCP, 17=UDP): <input name="protocol" required></label>
+      <label>Destination IP: <input name="ipDst" required></label>
+      <label>Destination Port: <input name="dstPort" required></label>
+      <label>Output Port: <input name="port" required></label>
+      <button type="submit">Add Flow</button>
+    </form>
+  </div>
+
+  <%-include('partials/footer')%>
+</body>
+</html>

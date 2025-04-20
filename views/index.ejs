@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Switch Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #f8fbff, #e2ecf5);
+      color: #2c3e50;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      color: #1a2b49;
+      margin-bottom: 0.5rem;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    header p {
+      color: #5a6780;
+      font-size: 1rem;
+      line-height: 1.6;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    a{
+        text-decoration: none;
+        color: white;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      width: 100%;
+      margin-top: 2rem;
+      animation: slideUp 1s ease-out;
+    }
+
+    .card {
+      background: white;
+      border-radius: 1.25rem;
+      padding: 2rem;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 36px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #1c2d4a;
+    }
+
+    .card p {
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      color: #4a5662;
+    }
+
+    .card button {
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(to right, #007bff, #0056b3);
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .card button:hover {
+      background: linear-gradient(to right, #0056b3, #003e80);
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #7c8a9c;
+      animation: fadeIn 2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .card {
+        padding: 1.2rem;
+      }
+
+      .card h3 {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>QoS Implementation & Dynamic Traffic Management in SDN-Based Campus Networks</h1>
+    <p>
+      Department of Electrical Engineering • Broadband Communication Networks<br/>
+      <strong>Miracle Chidinma Nnabuko</strong> (NNBMIR001)
+    </p>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h3>Switch One</h3>
+      <p>This is core or master switch, it performs routing</p>
+      <button>Manipulate Switch One Data</button>
+    </div>
+    <div class="card">
+      <h3>Switch Two</h3>
+      <p>Host one and Host two are connected to Switch Two</p>
+      <button><a href="/switchtwo">Manipulate Switch Two Data</a> </button>
+    </div>
+    <div class="card">
+      <h3>Switch Three</h3>
+      <p>Host three and host four are connected to Switch Three</p>
+      <button>Manipulate Switch Three Data</button>
+    </div>
+  </div>
+
+  <%-include('partials/footer')%>
+ 
+</body>
+</html>

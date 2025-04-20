@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Flow</title>
+  <style>
+    .container {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      margin-bottom: 1rem;
+      color: #1e2d50;
+      text-align: center;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #5e6e8c;
+    }
+
+    form {
+      margin-bottom: 2rem;
+      background-color: #ffffff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    form input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      outline: none;
+      transition: border 0.3s;
+    }
+
+    form input:focus {
+      border-color: #007bff;
+    }
+
+    button {
+      background: linear-gradient(to right, #007bff, #0056b3);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #0056b3, #003f7f);
+    }
+  </style>
+</head>
+<body>
+  <%-include('partials/navbar') %>
+
+  <%
+  const udp = flow.selector.criteria.find(c => c.type === "UDP_DST");
+  const tcp = flow.selector.criteria.find(c => c.type.includes("TCP"));
+
+  let trafficType = 'Unknown';
+  if (udp?.udpPort === 5001) {
+    trafficType = 'VoIP';
+  } else if (udp?.udpPort === 8000) {
+    trafficType = 'Video Streaming';
+  } else if (tcp?.tcpPort === 80) {
+    trafficType = 'HTTP';
+  }
+%>
+  <h1>Edit Flow for <%=trafficType %></h1>
+  <form action="/update/<%= index %>" method="POST">
+    <label>Priority: <input name="priority" placeholder="<%= flow.priority %>" ></label><br>
+    <label>Device ID: <input name="deviceId" placeholder="<%= flow.deviceId %>"></label><br>
+    <label>Protocol: <input name="protocol" placeholder="<%= flow.selector.criteria.find(c => c.type === 'IP_PROTO').protocol %>" ></label><br>
+    <label>Destination IP: <input name="ipDst" placeholder="<%= flow.selector.criteria.find(c => c.type === 'IPV4_DST').ip %>"></label><br>
+    <label>Destination Port:
+      <input name="dstPort"
+      placeholder="<%= flow.selector.criteria.find(c => c.type === 'TCP_DST')?.tcpPort || flow.selector.criteria.find(c => c.type === 'UDP_DST')?.udpPort %>"
+    >
+    </label><br>
+    <label>Output Port: <input name="port" placeholder="<%= flow.treatment.instructions[0].port %>" ></label><br>
+    <button type="submit">Update</button>
+  </form>
+
+  <%-include('partials/footer') %>
+</body>
+</html>
