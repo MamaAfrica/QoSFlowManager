@@ -1,0 +1,157 @@
+{
+    "flows": [
+      {
+        "priority": 40000,
+        "timeout": 0,
+        "isPermanent": true,
+        "deviceId": "of:0000000000000003",
+        "treatment": {
+          "instructions": [
+            { "type": "QUEUE", "queueId": "1", "port": "1" },
+            { "type": "OUTPUT", "port": "1" }
+          ]
+        },
+        "selector": {
+          "criteria": [
+            { "type": "ETH_TYPE", "ethType": "0x0800" },
+            { "type": "IP_PROTO", "protocol": 17 },
+            { "type": "IPV4_DST", "ip": "10.0.0.3/32" },
+            { "type": "UDP_DST", "udpPort": 5001 }
+          ]
+        }
+      },
+      {
+        "priority": 30000,
+        "timeout": 0,
+        "isPermanent": true,
+        "deviceId": "of:0000000000000003",
+        "treatment": {
+          "instructions": [
+            { "type": "QUEUE", "queueId": "2", "port": "1" },
+            { "type": "OUTPUT", "port": "1" }
+          ]
+        },
+        "selector": {
+          "criteria": [
+            { "type": "ETH_TYPE", "ethType": "0x0800" },
+            { "type": "IP_PROTO", "protocol": 17 },
+            { "type": "IPV4_DST", "ip": "10.0.0.3/32" },
+            { "type": "UDP_DST", "udpPort": 8000 }
+          ]
+        }
+      },
+      {
+        "priority": 20000,
+        "timeout": 0,
+        "isPermanent": true,
+        "deviceId": "of:0000000000000003",
+        "treatment": {
+          "instructions": [
+            { "type": "QUEUE", "queueId": "1", "port": "2" },
+            { "type": "OUTPUT", "port": "2" }
+          ]
+        },
+        "selector": {
+          "criteria": [
+            { "type": "ETH_TYPE", "ethType": "0x0800" },
+            { "type": "IP_PROTO", "protocol": 6 },
+            { "type": "IPV4_DST", "ip": "10.0.0.4/32" },
+            { "type": "TCP_DST", "tcpPort": 80 }
+          ]
+        }
+      },
+      {
+        "priority": 20000,
+        "timeout": 0,
+        "isPermanent": true,
+        "deviceId": "of:0000000000000003",
+        "treatment": {
+          "instructions": [
+            { "type": "OUTPUT", "port": "3" }
+          ]
+        },
+        "selector": {
+          "criteria": [
+            { "type": "ETH_TYPE", "ethType": "0x0800" },
+            { "type": "IP_PROTO", "protocol": 6 },
+            { "type": "TCP_SRC", "tcpPort": 80 },
+            { "type": "IPV4_DST", "ip": "10.0.0.1/32" }
+          ]
+        }
+      },
+      {
+        "priority": 20000,
+        "timeout": 0,
+        "isPermanent": true,
+        "deviceId": "of:0000000000000003",
+        "treatment": {
+          "instructions": [
+            { "type": "OUTPUT", "port": "3" }
+          ]
+        },
+        "selector": {
+          "criteria": [
+            { "type": "ETH_TYPE", "ethType": "0x0800" },
+            { "type": "IP_PROTO", "protocol": 6 },
+            { "type": "TCP_SRC", "tcpPort": 80 },
+            { "type": "IPV4_DST", "ip": "10.0.0.2/32" }
+          ]
+        }
+      },
+      {
+        "priority": 20000,
+        "timeout": 0,
+        "isPermanent": true,
+        "deviceId": "of:0000000000000003",
+        "treatment": {
+          "instructions": [
+            { "type": "OUTPUT", "port": "1" }
+          ]
+        },
+        "selector": {
+          "criteria": [
+            { "type": "ETH_TYPE", "ethType": "0x0800" },
+            { "type": "IP_PROTO", "protocol": 6 },
+            { "type": "TCP_SRC", "tcpPort": 80 },
+            { "type": "IPV4_DST", "ip": "10.0.0.3/32" }
+          ]
+        }
+      },
+          {
+        "priority": 20000,
+        "timeout": 0,
+        "isPermanent": true,
+        "deviceId": "of:0000000000000003",
+        "treatment": {
+          "instructions": [
+            { "type": "OUTPUT", "port": "2" }
+          ]
+        },
+        "selector": {
+          "criteria": [
+            { "type": "ETH_TYPE", "ethType": "0x0800" },
+            { "type": "IP_PROTO", "protocol": 6 },
+            { "type": "TCP_SRC", "tcpPort": 80 },
+            { "type": "IPV4_DST", "ip": "10.0.0.4/32" }
+          ]
+        }
+      },
+      {
+        "priority": 10000,
+        "timeout": 0,
+        "isPermanent": true,
+        "deviceId": "of:0000000000000003",
+        "treatment": {
+          "instructions": [
+            { "type": "OUTPUT", "port": "3" }
+          ]
+        },
+        "selector": {
+          "criteria": [
+            { "type": "ETH_TYPE", "ethType": "0x0800" }
+          ]
+        }
+      }
+    ]
+  }
+  

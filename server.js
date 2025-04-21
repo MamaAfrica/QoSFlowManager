@@ -7,6 +7,8 @@ const axios = require('axios');
 const app = express();
 const PORT = 3000;
 const flowsPath = path.join(__dirname, 'Switchtwoflows.json');
+const flowsPathOne = path.join(__dirname, 'Switchoneflows.json');
+const flowsPathThree = path.join(__dirname, 'Switchthreeflows.json');
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
@@ -137,4 +139,4 @@ function buildFlowFromForm(body) {
   };
 }
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server running on http://127.0.0.1:${PORT}`));
